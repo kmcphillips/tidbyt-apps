@@ -1,0 +1,60 @@
+#!/bin/ruby
+# frozen_string_literal: true
+
+require "bundler/inline"
+
+gemfile do
+  source "https://rubygems.org"
+  gem "activesupport", "~> 7.0"
+  gem "rainbow"
+  gem "dotenv"
+  gem "httparty"
+end
+
+require 'dotenv/load'
+require "active_support"
+require "active_support/core_ext"
+require "open3"
+require "base64"
+require "fileutils"
+
+device_id = ENV["TIDBYT_DEVICE_ID"]
+token = ENV["TIDBYT_TOKEN"]
+star_file = ARGV[0]
+
+raise "Usage: bin/push <star_file>" unless star_file.present?
+raise "File #{ star_file } does not exist" unless File.exist?(star_file)
+raise "#{ star_file } is not a .star file" unless star_file.end_with?(".star")
+raise "The TIDBYT_DEVICE_ID environment variable is not set" unless device_id.present?
+raise "The TIDBYT_TOKEN environment variable is not set" unless token.present?
+
+webp_file = star_file.gsub(".star", ".webp")
+installation_id = File.basename(star_file, ".star")
+
+path = File.dirname(File.expand_path(__FILE__))
+command = "#{ path }/pixlet render #{ star_file }"
+
+print "Building #{ Rainbow(star_file).yellow }... "
+stdout, stderr, status = Open3.capture3(command)
+
+raise "Failed to build #{ star_file }.\n#{ stdout }\n#{ stderr }" unless status.success?
+puts Rainbow("OK").green
+
+print "Pushing #{ Rainbow(webp_file).yellow } to Tidbyt as '#{ installation_id }'... "
+
+webp_data = Base64.strict_encode64(File.open(webp_file).read)
+body_json = "{\"image\": \"#{ webp_data }\", \"installationID\": \"#{ installation_id }\"}"
+push_url = "https://api.tidbyt.com/v0/devices/#{ device_id }/push"
+
+response = HTTParty.post(
+  push_url,
+  body: body_json,
+  headers: {
+    "Authorization" => "Bearer #{ token }",
+    "Content-Type" => "application/json",
+  }
+)
+
+raise "Got a failure response from Tidbyt: #{ response.code } #{ response.message } #{ response.body }" if !response.success?
+
+puts Rainbow("OK").green
