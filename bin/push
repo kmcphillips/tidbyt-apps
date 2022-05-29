@@ -40,7 +40,7 @@ stdout, stderr, status = Open3.capture3(command)
 raise "Failed to build #{ star_file }.\n#{ stdout }\n#{ stderr }" unless status.success?
 puts Rainbow("OK").green
 
-print "Pushing #{ Rainbow(webp_file).yellow } to Tidbyt as '#{ installation_id }'... "
+print "Pushing #{ Rainbow(webp_file).yellow } to Tidbyt as '#{ Rainbow(installation_id).cyan }'... "
 
 webp_data = Base64.strict_encode64(File.open(webp_file).read)
 body_json = "{\"image\": \"#{ webp_data }\", \"installationID\": \"#{ installation_id }\"}"
