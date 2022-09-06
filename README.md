@@ -9,6 +9,12 @@ Use [pixlet](https://github.com/tidbyt/pixlet) to build apps for [Tidbyt](https:
 * Install the [iOS app](https://tidbyt.com/app).
 
 
+### Reference
+
+* https://github.com/tidbyt/pixlet/blob/main/docs/
+* https://github.com/bazelbuild/starlark
+
+
 ## Development
 
 The `pixlet` executable is included in the project, so you can develop with:
