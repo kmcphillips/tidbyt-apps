@@ -20,7 +20,7 @@ Use [pixlet](https://github.com/tidbyt/pixlet) to build apps for [Tidbyt](https:
 The `pixlet` executable is included in the project, so you can develop with:
 
 ```bash
-$ bin/pixlet serve --watch src/quigital.star
+$ bin/pixlet serve --watch src/example.star
 ```
 
 Then visit http://localhost:8080/
@@ -40,5 +40,5 @@ Those values can be found in the Tidbyt mobile app.
 Then to push to the device:
 
 ```bash
-$ bin/push src/quigital.star
+$ bin/push src/example.star
 ```
