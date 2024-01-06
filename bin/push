@@ -29,7 +29,7 @@ raise "The TIDBYT_DEVICE_ID environment variable is not set" unless device_id.pr
 raise "The TIDBYT_TOKEN environment variable is not set" unless token.present?
 
 webp_file = star_file.gsub(".star", ".webp")
-installation_id = File.basename(star_file, ".star")
+installation_id = File.basename(star_file, ".star").gsub(/[^a-zA-Z0-9]/, "")
 
 path = File.dirname(File.expand_path(__FILE__))
 command = "#{ path }/pixlet render #{ star_file }"
