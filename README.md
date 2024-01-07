@@ -26,6 +26,20 @@ $ bin/pixlet serve --watch src/example.star
 Then visit http://localhost:8080/
 
 
+## Buliding Pixlet for Raspberry Pi
+
+Assuming `go` and `npm` are installed:
+
+```bash
+cd ~/pixlet
+npm install && npm run build && PATH=$PATH:/usr/local/go/bin GOPATH=$HOME/golang make build
+cp pixlet ~/tidbyt-apps/bin/pixlet_linux_arm32
+```
+
+https://github.com/drudge/homebridge-tidbyt/wiki#how-do-you-install-pixlet-on-the-raspberry-pi
+https://github.com/tidbyt/pixlet/issues/700
+
+
 ## Pushing to Tidbyt
 
 Include a `.env` file in the root of the project that includes:
