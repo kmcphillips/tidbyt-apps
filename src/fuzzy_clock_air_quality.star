@@ -7,11 +7,24 @@ def main(config):
 
   return render.Root(
     child = render.Box(
-      padding=4,
-      child = render.WrappedText(
-        content = fuzzy_time_string(now),
-        font = "5x8",
-        color = "#c7cafe"
+      padding=2,
+      child = render.Column(
+        expanded=True,
+        children = [
+          render.WrappedText(
+            content = fuzzy_time_string(now),
+            font = "tb-8",
+            color = "#c7cafe"
+          ),
+          render.Padding(
+            pad = (0, 3, 0, 0),
+            child = render.Text(
+              content = "ALL IS WELL",
+              font = "tb-8",
+              color = "#ffffff"
+            ),
+          ),
+        ],
       ),
     ),
   )
