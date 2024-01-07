@@ -10,6 +10,9 @@ if [[ $OSTYPE == 'darwin'* ]]; then
 elif grep -q Ubuntu /etc/issue; then
   $( dirname "$0" )/pixlet_linux_amd64 "$@"
 
+elif grep -q Raspbian /etc/issue; then
+  $( dirname "$0" )/pixlet_linux_arm64 "$@"
+
 else
   echo "Don't know how to install for this OS."
   exit 1
