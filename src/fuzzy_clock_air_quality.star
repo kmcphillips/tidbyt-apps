@@ -44,11 +44,11 @@ def fuzzy_time_string(now):
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
     return "TWENTY AFTER %s" % hour
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return "ALMOST %s THIRTY" % hour
+    return "ALMOST %s THIRTY" % back_to_twelve(hour)
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return "%s THIRTY" % hour
+    return "%s THIRTY" % back_to_twelve(hour)
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return "%s THIRTY FIVE" % hour
+    return "%s THIRTY FIVE" % back_to_twelve(hour)
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
     return "TWENTY TO %s" % next_hour
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
@@ -93,3 +93,9 @@ def hour_word(hour):
     return "ELEVEN"
   else:
     return "???"
+
+def back_to_twelve(hour):
+  if hour == "MIDNIGHT" or hour == "NOON":
+    return "TWELVE"
+  else:
+    return hour
