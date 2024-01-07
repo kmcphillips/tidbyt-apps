@@ -1,19 +1,23 @@
 #!/bin/bash
 
+PIXLET_BINARY=""
+
 if [[ $OSTYPE == 'darwin'* ]]; then
   if [[ $(uname -m) == 'arm64' ]]; then
-    echo "TODO - MacOS arm64"
+    PIXLET_BINARY="pixlet_darwin_arm64"
   else
-    echo "TODO - MacOS x86_64"
+    PIXLET_BINARY="pixlet_darwin_amd64"
   fi
 
 elif grep -q Ubuntu /etc/issue; then
-  $( dirname "$0" )/pixlet_linux_amd64 "$@"
+  PIXLET_BINARY="pixlet_linux_amd64"
 
 elif grep -q Raspbian /etc/issue; then # uname -m == armv7l
-  $( dirname "$0" )/pixlet_linux_armv7l "$@"
+  PIXLET_BINARY="pixlet_linux_armv7l"
 
 else
-  echo "Don't know how to install for this OS."
+  echo "Don't know how to run this OS."
   exit 1
 fi
+
+$( dirname "$0" )/$PIXLET_BINARY "$@"
