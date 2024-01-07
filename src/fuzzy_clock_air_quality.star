@@ -19,7 +19,7 @@ def main(config):
           render.Padding(
             pad = (0, 3, 0, 0),
             child = render.Text(
-              content = "", # TODO
+              content = ".", # TODO
               font = "tb-8",
               color = "#ffffff"
             ),
