@@ -1,5 +1,8 @@
 load("render.star", "render")
 load("time.star", "time")
+load("http.star", "http")
+
+WEATHER_URL = "https://www.7timer.info/bin/civil.php?lat=45.4&lon=-75.7&ac=0&unit=metric&output=json&tzshift=0"
 
 def main(config):
   timezone = config.get("timezone") or "America/New_York"
@@ -41,11 +44,17 @@ def main(config):
       ),
     )
 
+  rep = http.get(WEATHER_URL)
+  if rep.status_code != 200:
+    weather = "ERROR"
+  else:
+    weather = "%d" % rep.json()["dataseries"][0]["temp2m"]
+
   rows.append(
     render.Padding(
       pad = (0, 3, 0, 0),
       child = render.Text(
-        content = "", # TODO
+        content = weather,
         font = "tb-8",
         color = "#ffffff"
       ),
