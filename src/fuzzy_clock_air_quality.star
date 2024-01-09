@@ -4,63 +4,101 @@ load("time.star", "time")
 def main(config):
   timezone = config.get("timezone") or "America/New_York"
   now = time.now().in_location(timezone)
+  lines = fuzzy_time_lines(now)
+  color = "#c7cafe"
+  rows = []
 
-  return render.Root(
-    child = render.Box(
-      padding=2,
-      child = render.Column(
-        expanded=True,
-        children = [
-          render.WrappedText(
-            content = fuzzy_time_string(now),
-            font = "tb-8",
-            color = "#c7cafe"
-          ),
-          render.Padding(
-            pad = (0, 3, 0, 0),
-            child = render.Text(
-              content = "", # TODO
-              font = "tb-8",
-              color = "#ffffff"
-            ),
-          ),
-        ],
+  if len(lines) == 1:
+    rows.append(
+      render.Padding(
+        pad = (0, 4, 0, 0),
+        child = render.Text(
+          content = lines[0],
+          font = "tb-8",
+          color = color,
+        ),
+      ),
+    )
+
+  elif len(lines) == 2:
+    rows.append(
+      render.Text(
+        content = lines[0],
+        font = "tb-8",
+        color = color,
+      ),
+    )
+    rows.append(
+      render.Text(
+        content = lines[1],
+        font = "tb-8",
+        color = color,
+      ),
+    )
+
+  else:
+    rows.append(
+      render.Text(
+        content = "BAD LINE LEN = %d" % len(lines),
+        font = "tb-8",
+        color = color,
+      ),
+    )
+
+  rows.append(
+    render.Padding(
+      pad = (0, 3, 0, 0),
+      child = render.Text(
+        content = "", # TODO
+        font = "tb-8",
+        color = "#ffffff"
       ),
     ),
   )
 
-def fuzzy_time_string(now):
+  return render.Root(
+    child = render.Box(
+      padding = 2,
+      child = render.Column(
+        expanded = True,
+        cross_align = "center",
+        children = rows,
+      ),
+    ),
+  )
+
+def fuzzy_time_lines(now):
   hour = hour_word(now.hour)
   next_hour = hour_word((now.hour + 1) % 24)
 
   if now.minute <= 1 or (now.minute == 2 and now.second <= 30):
-    return "%s" % hour
+    return [hour]
   elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
-    return "JUST AFTER %s" % hour
+    return ["JUST AFTER", hour]
   elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
-    return "TEN AFTER %s" % hour
+    return ["TEN AFTER", hour]
   elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
-    return "QUARTER AFTER %s" % hour
+    return ["QUARTER AFTER", hour]
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
-    return "TWENTY AFTER %s" % hour
+    return ["TWENTY AFTER", hour]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return "ALMOST %s THIRTY" % back_to_twelve(hour)
+    return ["ALMOST", "%s THIRTY" % back_to_twelve(hour) ]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return "%s THIRTY" % back_to_twelve(hour)
+    return [back_to_twelve(hour), "THIRTY"]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return "%s THIRTY FIVE" % back_to_twelve(hour)
+    return [back_to_twelve(hour), "THIRTY FIVE"]
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
-    return "TWENTY TO %s" % next_hour
+    return ["TWENTY TO", next_hour]
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
-    return "QUARTER TO %s" % next_hour
+    return ["QUARTER TO", next_hour]
   elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
-    return "TEN TO %s" % next_hour
+    return ["TEN TO", next_hour]
   elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
-    return "ALMOST %s" % next_hour
+    return ["ALMOST", next_hour]
   elif now.minute <= 59:
-    return "%s" % next_hour
+    return [next_hour]
   else:
-    return "ABOUT %s-ISH" % hour
+    return ["%s-ISH" % hour]
 
 def hour_word(hour):
   if hour == 0:
