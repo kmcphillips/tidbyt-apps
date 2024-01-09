@@ -8,19 +8,7 @@ def main(config):
   color = "#c7cafe"
   rows = []
 
-  if len(lines) == 1:
-    rows.append(
-      render.Padding(
-        pad = (0, 4, 0, 0),
-        child = render.Text(
-          content = lines[0],
-          font = "tb-8",
-          color = color,
-        ),
-      ),
-    )
-
-  elif len(lines) == 2:
+  if len(lines) == 2:
     rows.append(
       render.Text(
         content = lines[0],
@@ -37,11 +25,19 @@ def main(config):
     )
 
   else:
+    if len(lines) == 1:
+      line = lines[0]
+    else:
+      line = "BAD LINE LEN = %d" % len(lines)
+
     rows.append(
-      render.Text(
-        content = "BAD LINE LEN = %d" % len(lines),
-        font = "tb-8",
-        color = color,
+      render.Padding(
+        pad = (0, 4, 0, 4),
+        child = render.Text(
+          content = lines[0],
+          font = "tb-8",
+          color = color,
+        ),
       ),
     )
 
