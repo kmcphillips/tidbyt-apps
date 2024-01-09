@@ -9,7 +9,7 @@ def main(config):
   now = time.now().in_location(timezone)
   lines = fuzzy_time_lines(now)
   color = "#c7cafe"
-  rows = []
+  rows = [render.Box(height = 2)]
 
   if len(lines) == 2:
     rows.append(
@@ -52,7 +52,7 @@ def main(config):
 
   rows.append(
     render.Padding(
-      pad = (0, 3, 0, 0),
+      pad = (0, 4, 0, 0),
       child = render.Text(
         content = weather,
         font = "tb-8",
@@ -63,7 +63,7 @@ def main(config):
 
   return render.Root(
     child = render.Box(
-      padding = 2,
+      padding = 0,
       child = render.Column(
         expanded = True,
         cross_align = "center",
