@@ -48,7 +48,7 @@ def main(config):
   if rep.status_code != 200:
     weather = "ERROR"
   else:
-    weather = "%d" % rep.json()["dataseries"][0]["temp2m"]
+    weather = "%d°" % rep.json()["dataseries"][0]["temp2m"]
 
   rows.append(
     render.Padding(
