@@ -12,31 +12,9 @@ gemfile do
 end
 
 require "dotenv/load"
-
 require "active_support"
 require "active_support/core_ext"
 require "active_support/cache"
-
-
-# cache_path = File.join(File.dirname(__FILE__), "../tmp/cache")
-# data_cache = ActiveSupport::Cache::FileStore.new(cache_path)
-
-# c.fetch("c", expires_in: 8.seconds) { get_the_data }
-# expires_in: 15.minutes
-
-# data = {
-#   temperature: "",
-# }
-
-# # Weather
-# begin
-#   weather_client = OpenWeather::Client.new(api_key: ENV["OPEN_WEATHER_API_KEY"])
-#   weather_response = weather_client.current_weather(city: "Ottawa", units: "metric")
-#   data[:temperature] = weather_response.main.temp.round.to_s
-# rescue => e
-#   puts "Error getting weather: #{e}"
-# end
-
 
 class CachedData
   attr_reader :data
@@ -59,7 +37,6 @@ class CachedData
     end
   end
 end
-
 
 class StarlarkFileWriter
   class Context
@@ -86,7 +63,6 @@ class StarlarkFileWriter
     File.write(output_filename, result)
   end
 end
-
 
 cache = CachedData.new(cache_path: File.join(File.dirname(__FILE__), "../tmp/cache"))
 
