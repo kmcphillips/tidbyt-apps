@@ -5,3 +5,4 @@ dist/
 *.webp
 .env
 src/fuzzy_clock_data.star
+tmp/*
