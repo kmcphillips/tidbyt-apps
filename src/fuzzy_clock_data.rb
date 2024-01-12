@@ -44,7 +44,9 @@ class Context
   end
 end
 
-puts "Loading data: #{data}"
+puts "Writing '#{ output_filename }' with DATA = #{data}"
 
 result = ERB.new(File.read(erb_filename)).result(Context.new(data).get_binding)
 File.write(output_filename, result)
+
+puts "Done"
