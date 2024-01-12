@@ -67,7 +67,7 @@ end
 cache = CachedData.new(cache_path: File.join(File.dirname(__FILE__), "../tmp/cache"))
 
 # Fetch the temperature
-cache.value("weather", expires_in: 15.minutes) do
+cache.value("temperature", expires_in: 15.minutes) do
   weather_client = OpenWeather::Client.new(api_key: ENV["OPEN_WEATHER_API_KEY"])
   weather_response = weather_client.current_weather(city: "Ottawa", units: "metric")
   weather_response.main.temp.round.to_s
