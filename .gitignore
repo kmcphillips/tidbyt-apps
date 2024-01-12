@@ -4,3 +4,4 @@ dist/
 .DS_Store
 *.webp
 .env
+src/fuzzy_clock_data.star
