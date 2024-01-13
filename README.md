@@ -26,6 +26,17 @@ $ bin/pixlet serve --watch src/example.star
 Then visit http://localhost:8080/
 
 
+### `fuzzy_clock_data.star`
+
+This Starlark file for a clock is generated from `fuzzy_clock_data.star.erb` by running:
+
+```bash
+ruby bin/fuzzy_clock_data.rb
+```
+
+It interpolates the `DATA` dict in the file so that it can use Ruby to fetch and format data in ways that Starlark cannot. It also uses a local file cache with a TTL for each value to prevent hitting APIs too often.
+
+
 ## Buliding Pixlet for Raspberry Pi
 
 Assuming `go` and `npm` are installed:
