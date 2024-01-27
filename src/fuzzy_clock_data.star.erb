@@ -47,7 +47,7 @@ def main(config):
     render.Padding(
       pad = (0, 4, 0, 0),
       child = render.Text(
-        content = "%s°" % DATA["temperature"],
+        content = formatted_temperature(DATA["temperature"]),
         font = "tb-8",
         color = "#ffffff"
       ),
@@ -65,40 +65,48 @@ def main(config):
     ),
   )
 
+
+def formatted_temperature(input):
+  temp = int(input)
+  if temp < 0:
+    return "%s°" % temp
+  else:
+    return " %s°" % temp
+
 def fuzzy_time_lines(now):
-  hour = hour_word(now.hour)
-  next_hour = hour_word((now.hour + 1) % 24)
+  hour = now.hour
+  next_hour = (now.hour + 1) % 24
 
   if now.minute <= 1 or (now.minute == 2 and now.second <= 30):
-    return [hour]
+    return [hour_word(hour)]
   elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
-    return ["JUST AFTER", hour]
+    return ["JUST AFTER", hour_word(hour)]
   elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
-    return ["TEN AFTER", hour]
+    return ["TEN AFTER", hour_word(hour)]
   elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
-    return ["QUARTER AFTER", hour]
+    return ["QUARTER AFTER", hour_word(hour)]
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
-    return ["TWENTY AFTER", hour]
+    return ["TWENTY AFTER", hour_word(hour)]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return ["ALMOST", "%s THIRTY" % back_to_twelve(hour) ]
+    return ["ALMOST", "%s THIRTY" % hour_word(hour, True) ]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return [back_to_twelve(hour), "THIRTY"]
+    return [hour_word(hour, True), "THIRTY"]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return [back_to_twelve(hour), "THIRTY FIVE"]
+    return [hour_word(hour, True), "THIRTY FIVE"]
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
-    return ["TWENTY TO", next_hour]
+    return ["TWENTY TO", hour_word(next_hour)]
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
-    return ["QUARTER TO", next_hour]
+    return ["QUARTER TO", hour_word(next_hour)]
   elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
-    return ["TEN TO", next_hour]
+    return ["TEN TO", hour_word(next_hour)]
   elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
-    return ["ALMOST", next_hour]
+    return ["ALMOST", hour_word(next_hour)]
   elif now.minute <= 59:
-    return [next_hour]
+    return [hour_word(next_hour)]
   else:
-    return ["%s-ISH" % hour]
+    return ["%s-ISH" % hour_word(hour)]
 
-def hour_word(hour):
+def hour_word(hour, numeric_twelve = False):
   if hour == 0:
     return "MIDNIGHT"
   elif hour == 12:
@@ -129,9 +137,3 @@ def hour_word(hour):
     return "ELEVEN"
   else:
     return "???"
-
-def back_to_twelve(hour):
-  if hour == "MIDNIGHT" or hour == "NOON":
-    return "TWELVE"
-  else:
-    return hour
