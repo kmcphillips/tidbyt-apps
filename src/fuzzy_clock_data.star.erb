@@ -108,9 +108,15 @@ def fuzzy_time_lines(now):
 
 def hour_word(hour, numeric_twelve = False):
   if hour == 0:
-    return "MIDNIGHT"
+    if numeric_twelve:
+      return "TWELVE"
+    else:
+      return "MIDNIGHT"
   elif hour == 12:
-    return "NOON"
+    if numeric_twelve:
+      return "TWELVE"
+    else:
+      return "NOON"
   elif hour > 12:
     return hour_word(hour - 12)
   elif hour == 1:
