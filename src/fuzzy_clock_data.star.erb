@@ -43,16 +43,34 @@ def main(config):
       ),
     )
 
+  bottom_row_items = [
+    render.Text(
+          content = formatted_temperature(DATA["temperature"]),
+          font = "tb-8",
+          color = "#ffffff"
+    )
+  ]
+
+  ## Add custom things here
+  # bottom_row_items.append(
+  #   render.Text(
+  #     content = "TODO.rb",
+  #     font = "tb-8",
+  #     color = "#ffffff"
+  #   )
+  # )
+
   rows.append(
     render.Padding(
       pad = (0, 4, 0, 0),
-      child = render.Text(
-        content = formatted_temperature(DATA["temperature"]),
-        font = "tb-8",
-        color = "#ffffff"
-      ),
-    ),
+      child = render.Row(
+        children = bottom_row_items,
+        expanded = True,
+        main_align = "space_evenly",
+      )
+    )
   )
+
 
   return render.Root(
     child = render.Box(
