@@ -1,5 +1,6 @@
 load("render.star", "render")
 load("time.star", "time")
+load("math.star", "math")
 
 DATA = <%= data_as_starlark_dict %>
 
@@ -60,36 +61,15 @@ def main(config):
   #   )
   # )
 
-  ## Birthday countdown
-  if now.year == 2025 and now.month <= 5:
-    bd_days = -1
-
-    if now.month == 3:
-      bd_days = (31 - now.day) + 30 + 2
-    elif now.month == 4:
-      bd_days = (30 - now.day) + 2
-    elif now.month == 5 and now.day == 1:
-      bd_days = 1
-    elif now.month == 5 and now.day == 2:
-      bd_days = 0
-    else:
-      bd_days = -1
-
-    if bd_days >= 0:
-      if bd_days == 0:
-        bd_text = "BIRTHDAY"
-      elif bd_days == 1:
-        bd_text = "1 day"
-      else:
-        bd_text = "%s days" % bd_days
-
-      bottom_row_items.append(
-        render.Text(
-          content = bd_text,
-          font = "tb-8",
-          color = "#BF40BF"
-        )
+  birthday = days_until_event(2025, 5, 2, timezone, "BIRTHDAY")
+  if birthday:
+    bottom_row_items.append(
+      render.Text(
+        content = birthday,
+        font = "tb-8",
+        color = "#BF40BF"
       )
+    )
 
   rows.append(
     render.Padding(
@@ -101,7 +81,6 @@ def main(config):
       )
     )
   )
-
 
   return render.Root(
     child = render.Box(
@@ -192,3 +171,17 @@ def hour_word(hour, numeric_twelve = False):
     return "eleven"
   else:
     return "???"
+
+def days_until_event(year, month, day, timezone, message = "Today!"):
+  now = time.now().in_location(timezone)
+  d = time.time(year = year, month = month, day = day, hour = 0, minute = 0, second = 0, nanosecond = 0, location = timezone)
+  result = math.floor((d.unix - now.unix) / (60 * 60 * 24)) + 1
+
+  if result < 0:
+    return None
+  elif result == 0:
+    return message
+  elif result == 1:
+    return "1 day"
+  else:
+    return "%s days" % result
