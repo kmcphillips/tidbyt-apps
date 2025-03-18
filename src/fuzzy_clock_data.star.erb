@@ -13,7 +13,7 @@ def main(config):
   if len(lines) == 2:
     rows.append(
       render.Text(
-        content = lines[0],
+        content = lines[0].capitalize(),
         font = "tb-8",
         color = color,
       ),
@@ -30,13 +30,13 @@ def main(config):
     if len(lines) == 1:
       line = lines[0]
     else:
-      line = "BAD LINE LEN = %d" % len(lines)
+      line = "Bad line len = %d" % len(lines)
 
     rows.append(
       render.Padding(
         pad = (0, 4, 0, 4),
         child = render.Text(
-          content = lines[0],
+          content = line.capitalize(),
           font = "tb-8",
           color = color,
         ),
