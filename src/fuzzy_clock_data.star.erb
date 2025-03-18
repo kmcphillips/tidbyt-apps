@@ -129,66 +129,66 @@ def fuzzy_time_lines(now):
   if now.minute <= 1 or (now.minute == 2 and now.second <= 30):
     return [hour_word(hour)]
   elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
-    return ["JUST AFTER", hour_word(hour)]
+    return ["just after", hour_word(hour)]
   elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
-    return ["TEN AFTER", hour_word(hour)]
+    return ["ten after", hour_word(hour)]
   elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
-    return ["QUARTER AFTER", hour_word(hour)]
+    return ["quarter after", hour_word(hour)]
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
-    return ["TWENTY AFTER", hour_word(hour)]
+    return ["twenty after", hour_word(hour)]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return ["ALMOST", "%s THIRTY" % hour_word(hour, True) ]
+    return ["almost", "%s thirty" % hour_word(hour, True) ]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return [hour_word(hour, True), "THIRTY"]
+    return [hour_word(hour, True), "thirty"]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return [hour_word(hour, True), "THIRTY FIVE"]
+    return [hour_word(hour, True), "thirty five"]
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
-    return ["TWENTY TO", hour_word(next_hour)]
+    return ["twenty to", hour_word(next_hour)]
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
-    return ["QUARTER TO", hour_word(next_hour)]
+    return ["quarter to", hour_word(next_hour)]
   elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
-    return ["TEN TO", hour_word(next_hour)]
+    return ["ten to", hour_word(next_hour)]
   elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
-    return ["ALMOST", hour_word(next_hour)]
+    return ["almost", hour_word(next_hour)]
   elif now.minute <= 59:
     return [hour_word(next_hour)]
   else:
-    return ["%s-ISH" % hour_word(hour)]
+    return ["%s-ish" % hour_word(hour)]
 
 def hour_word(hour, numeric_twelve = False):
   if hour == 0:
     if numeric_twelve:
-      return "TWELVE"
+      return "twelve"
     else:
-      return "MIDNIGHT"
+      return "midnight"
   elif hour == 12:
     if numeric_twelve:
-      return "TWELVE"
+      return "twelve"
     else:
-      return "NOON"
+      return "noon"
   elif hour > 12:
     return hour_word(hour - 12)
   elif hour == 1:
-    return "ONE"
+    return "one"
   elif hour == 2:
-    return "TWO"
+    return "two"
   elif hour == 3:
-    return "THREE"
+    return "three"
   elif hour == 4:
-    return "FOUR"
+    return "four"
   elif hour == 5:
-    return "FIVE"
+    return "five"
   elif hour == 6:
-    return "SIX"
+    return "six"
   elif hour == 7:
-    return "SEVEN"
+    return "seven"
   elif hour == 8:
-    return "EIGHT"
+    return "eight"
   elif hour == 9:
-    return "NINE"
+    return "nine"
   elif hour == 10:
-    return "TEN"
+    return "ten"
   elif hour == 11:
-    return "ELEVEN"
+    return "eleven"
   else:
     return "???"
