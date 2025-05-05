@@ -61,26 +61,26 @@ def main(config):
   #   )
   # )
 
-  birthday = days_until_event(2025, 8, 13, timezone, "BIRTHDAY")
-  if birthday:
-    bottom_row_items.append(
-      render.Text(
-        content = birthday,
-        font = "tb-8",
-        color = "#BF40BF"
-      )
-    )
-
-  rows.append(
-    render.Padding(
-      pad = (0, 4, 0, 0),
-      child = render.Row(
-        children = bottom_row_items,
-        expanded = True,
-        main_align = "space_evenly",
-      )
-    )
-  )
+  # birthday = days_until_event(2025, 8, 13, timezone, "BIRTHDAY")
+  # if birthday:
+  #   bottom_row_items.append(
+  #     render.Text(
+  #       content = birthday,
+  #       font = "tb-8",
+  #       color = "#BF40BF"
+  #     )
+  #   )
+# 
+#   rows.append(
+#     render.Padding(
+#       pad = (0, 4, 0, 0),
+#       child = render.Row(
+#         children = bottom_row_items,
+#         expanded = True,
+#         main_align = "space_evenly",
+#       )
+#     )
+#   )
 
   return render.Root(
     child = render.Box(
