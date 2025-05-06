@@ -11,6 +11,12 @@ def main(config):
   color = "#c7cafe"
   rows = [render.Box(height = 2)]
 
+  # Turn two lines into one if they're short
+  if len(lines) == 2:
+    str = " ".join(lines)
+    if len(str) <= 9:
+      rows = [str]
+
   if len(lines) == 2:
     rows.append(
       render.Text(
