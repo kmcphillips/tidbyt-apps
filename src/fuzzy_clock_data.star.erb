@@ -11,12 +11,6 @@ def main(config):
   color = "#c7cafe"
   rows = [render.Box(height = 2)]
 
-  # Turn two lines into one if they're short
-  if len(lines) == 2:
-    str = " ".join(lines)
-    if len(str) <= 9:
-      rows = [str]
-
   if len(lines) == 2:
     rows.append(
       render.Text(
@@ -110,35 +104,44 @@ def formatted_temperature(input):
 def fuzzy_time_lines(now):
   hour = now.hour
   next_hour = (now.hour + 1) % 24
+  result = []
 
   if now.minute <= 1 or (now.minute == 2 and now.second <= 30):
-    return [hour_word(hour)]
+    result = [hour_word(hour)]
   elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
-    return ["just after", hour_word(hour)]
+    result = ["just after", hour_word(hour)]
   elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
-    return ["ten after", hour_word(hour)]
+    result = ["ten after", hour_word(hour)]
   elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
-    return ["quarter after", hour_word(hour)]
+    result = ["quarter after", hour_word(hour)]
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
-    return ["twenty after", hour_word(hour)]
+    result = ["twenty after", hour_word(hour)]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return ["almost", "%s thirty" % hour_word(hour, True) ]
+    result = ["almost", "%s thirty" % hour_word(hour, True) ]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return [hour_word(hour, True), "thirty"]
+    result = [hour_word(hour, True), "thirty"]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return [hour_word(hour, True), "thirty five"]
+    result = [hour_word(hour, True), "thirty five"]
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
-    return ["twenty to", hour_word(next_hour)]
+    result = ["twenty to", hour_word(next_hour)]
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
-    return ["quarter to", hour_word(next_hour)]
+    result = ["quarter to", hour_word(next_hour)]
   elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
-    return ["ten to", hour_word(next_hour)]
+    result = ["ten to", hour_word(next_hour)]
   elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
-    return ["almost", hour_word(next_hour)]
+    result = ["almost", hour_word(next_hour)]
   elif now.minute <= 59:
-    return [hour_word(next_hour)]
+    result = [hour_word(next_hour)]
   else:
-    return ["%s-ish" % hour_word(hour)]
+    result = ["%s-ish" % hour_word(hour)]
+
+  # Turn two lines into one if they're short
+  if len(result) == 2:
+    str = " ".join(result)
+    if len(str) <= 10:
+      result = [str]
+
+  return result
 
 def hour_word(hour, numeric_twelve = False):
   if hour == 0:
