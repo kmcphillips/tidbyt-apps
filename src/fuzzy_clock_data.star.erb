@@ -61,15 +61,15 @@ def main(config):
   #   )
   # )
 
-  # birthday = days_until_event(2025, 8, 13, timezone, "BIRTHDAY")
-  # if birthday:
-  #   bottom_row_items.append(
-  #     render.Text(
-  #       content = birthday,
-  #       font = "tb-8",
-  #       color = "#BF40BF"
-  #     )
-  #   )
+  birthday = days_until_event(2026, 5, 2, timezone, "BIRTHDAY")
+  if birthday:
+    bottom_row_items.append(
+      render.Text(
+        content = birthday,
+        font = "tb-8",
+        color = "#BF40BF"
+      )
+    )
 
   rows.append(
     render.Padding(
