@@ -195,25 +195,25 @@ def fuzzy_time_lines_fr(now):
   elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
     return ["juste après", hour_word_fr(hour)]
   elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
-    return ["%s h" % hour_word_fr(hour), "et dix"]
+    return ["%s" % hour_word_fr(hour), "et dix"]
   elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
-    return ["%s h" % hour_word_fr(hour), "et quart"]
+    return ["%s" % hour_word_fr(hour), "et quart"]
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
-    return ["%s h" % hour_word_fr(hour), "et vingt"]
+    return ["%s" % hour_word_fr(hour), "et vingt"]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return ["presque %s h" % hour_word_fr(hour, True), "et demi" ]
+    return ["presque %s" % hour_word_fr(hour, True), "et demi" ]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
-    return ["%s h" % hour_word_fr(hour, True), "et demi" ]
+    return ["%s" % hour_word_fr(hour, True), "et demi" ]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
-    return ["%s h" % hour_word_fr(hour, True), "trente-cinq" ]
+    return ["%s" % hour_word_fr(hour, True), "trente-cinq" ]
   elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
-    return ["%s h" % hour_word_fr(next_hour), "moins vingt"]
+    return ["%s" % hour_word_fr(next_hour), "moins vingt"]
   elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
-    return ["%s h" % hour_word_fr(next_hour), "moins quart"]
+    return ["%s" % hour_word_fr(next_hour), "moins quart"]
   elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
-    return ["%s h" % hour_word_fr(next_hour), "moins dix"]
+    return ["%s" % hour_word_fr(next_hour), "moins dix"]
   elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
-    return ["presque", "%s h" % hour_word_fr(next_hour)]
+    return ["presque", "%s" % hour_word_fr(next_hour)]
   elif now.minute <= 59:
     return [hour_word_fr(next_hour)]
   else:
