@@ -2,14 +2,19 @@ load("render.star", "render")
 load("time.star", "time")
 load("math.star", "math")
 
+# DATA = <%= data_as_starlark_dict %>
 DATA = <%= data_as_starlark_dict %>
 
 def main(config):
   timezone = config.get("timezone") or "America/New_York"
+  french = True
   now = time.now().in_location(timezone)
-  lines = fuzzy_time_lines(now)
   color = "#c7cafe"
   rows = [render.Box(height = 2)]
+  if french:
+    lines = fuzzy_time_lines_fr(now)
+  else:
+    lines = fuzzy_time_lines(now)
 
   if len(lines) == 2:
     rows.append(
@@ -61,7 +66,7 @@ def main(config):
   #   )
   # )
 
-  birthday = days_until_event(2026, 5, 2, timezone, "BIRTHDAY")
+  birthday = days_until_event(2025, 5, 2, timezone, french, "BIRTHDAY")
   if birthday:
     bottom_row_items.append(
       render.Text(
@@ -181,7 +186,78 @@ def hour_word(hour, numeric_twelve = False):
   else:
     return "???"
 
-def days_until_event(year, month, day, timezone, message = "Today!"):
+def fuzzy_time_lines_fr(now):
+  hour = now.hour
+  next_hour = (now.hour + 1) % 24
+
+  if now.minute <= 1 or (now.minute == 2 and now.second <= 30):
+    return [hour_word_fr(hour)]
+  elif now.minute <= 6 or (now.minute == 7 and now.second <= 30):
+    return ["juste après", hour_word_fr(hour)]
+  elif now.minute <= 11 or (now.minute == 12 and now.second <= 30):
+    return ["et dix", hour_word_fr(hour)]
+  elif now.minute <= 16 or (now.minute == 17 and now.second <= 30):
+    return ["et quart", hour_word_fr(hour)]
+  elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
+    return ["et vingt", hour_word_fr(hour)]
+  elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
+    return ["presque %s h" % hour_word_fr(hour, True), "et demi" ]
+  elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
+    return ["%s h" % hour_word_fr(hour, True), "et demi" ]
+  elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
+    return ["%s h" % hour_word_fr(hour, True), "trente-cinq" ]
+  elif now.minute <= 41 or (now.minute == 42 and now.second <= 30):
+    return ["%s h" hour_word_fr(next_hour), "moins vingt"]
+  elif now.minute <= 46 or (now.minute == 47 and now.second <= 30):
+    return ["%s h" hour_word_fr(next_hour), "moins quart"]
+  elif now.minute <= 51 or (now.minute == 52 and now.second <= 30):
+    return ["%s h" hour_word_fr(next_hour), "moins dix"]
+  elif now.minute <= 56 or (now.minute == 57 and now.second <= 30):
+    return ["presque", "%s h" % hour_word_fr(next_hour)]
+  elif now.minute <= 59:
+    return [hour_word_fr(next_hour)]
+  else:
+    return ["%s-ish" % hour_word_fr(hour)]
+
+def hour_word_fr(hour, numeric_twelve = False):
+  if hour == 0:
+    if numeric_twelve:
+      return "douze"
+    else:
+      return "minuit"
+  elif hour == 12:
+    if numeric_twelve:
+      return "douze"
+    else:
+      return "midi"
+  elif hour > 12:
+    return hour_word_fr(hour - 12)
+  elif hour == 1:
+    return "un"
+  elif hour == 2:
+    return "deux"
+  elif hour == 3:
+    return "trois"
+  elif hour == 4:
+    return "quatre"
+  elif hour == 5:
+    return "cinq"
+  elif hour == 6:
+    return "six"
+  elif hour == 7:
+    return "sept"
+  elif hour == 8:
+    return "huit"
+  elif hour == 9:
+    return "neuf"
+  elif hour == 10:
+    return "dix"
+  elif hour == 11:
+    return "eleven"
+  else:
+    return "???"
+
+def days_until_event(year, month, day, timezone, french = False, message = "Today!"):
   now = time.now().in_location(timezone)
   d = time.time(year = year, month = month, day = day, hour = 0, minute = 0, second = 0, nanosecond = 0, location = timezone)
   result = math.floor((d.unix - now.unix) / (60 * 60 * 24)) + 1
@@ -191,6 +267,12 @@ def days_until_event(year, month, day, timezone, message = "Today!"):
   elif result == 0:
     return message
   elif result == 1:
-    return "1 day"
+    if french:
+      return "1 jour"
+    else:
+      return "1 day"
   else:
-    return "%s days" % result
+    if french:
+      return "%s jours" % result
+    else:
+      return "%s days" % result
