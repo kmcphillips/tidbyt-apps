@@ -258,7 +258,9 @@ def hour_word_fr(hour, numeric_twelve = False):
     return "???"
 
 def hour_plural_fr(hour):
-  if hour == 1:
+  if hour == 0 or hour == 12:
+    return None
+  elif hour == 1:
     return "heure"
   else:
     return "heures"
