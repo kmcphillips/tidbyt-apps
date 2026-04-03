@@ -106,6 +106,28 @@ def formatted_temperature(input):
   else:
     return " %s°" % temp
 
+def days_until_event(year, month, day, timezone, french = False, message = "Today!"):
+  now = time.now().in_location(timezone)
+  d = time.time(year = year, month = month, day = day, hour = 0, minute = 0, second = 0, nanosecond = 0, location = timezone)
+  result = math.floor((d.unix - now.unix) / (60 * 60 * 24)) + 1
+
+  if result < 0:
+    return None
+  elif result == 0:
+    return message
+  elif result == 1:
+    if french:
+      return "1 jour"
+    else:
+      return "1 day"
+  else:
+    if french:
+      return "%s jours" % result
+    else:
+      return "%s days" % result
+
+# English fuzzy time
+
 def fuzzy_time_lines(now):
   hour = now.hour
   next_hour = (now.hour + 1) % 24
@@ -186,6 +208,8 @@ def hour_word(hour, numeric_twelve = False):
   else:
     return "???"
 
+# French fuzzy time
+
 def fuzzy_time_lines_fr(now):
   hour = now.hour
   next_hour = (now.hour + 1) % 24
@@ -258,23 +282,3 @@ def hour_plural_fr(hour):
     return "heure"
   else:
     return "heures"
-
-def days_until_event(year, month, day, timezone, french = False, message = "Today!"):
-  now = time.now().in_location(timezone)
-  d = time.time(year = year, month = month, day = day, hour = 0, minute = 0, second = 0, nanosecond = 0, location = timezone)
-  result = math.floor((d.unix - now.unix) / (60 * 60 * 24)) + 1
-
-  if result < 0:
-    return None
-  elif result == 0:
-    return message
-  elif result == 1:
-    if french:
-      return "1 jour"
-    else:
-      return "1 day"
-  else:
-    if french:
-      return "%s jours" % result
-    else:
-      return "%s days" % result
