@@ -19,7 +19,7 @@ def main(config):
   if len(lines) == 2:
     rows.append(
       render.Text(
-        content = lines[0].capitalize(),
+        content = lines[0].strip().capitalize(),
         font = "tb-8",
         color = color,
       ),
@@ -259,8 +259,8 @@ def hour_word_fr(hour, numeric_twelve = False):
 
 def hour_plural_fr(hour):
   if hour == 0 or hour == 12:
-    return None
-  elif hour == 1:
+    return ""
+  elif hour == 1 or hour == 13:
     return "heure"
   else:
     return "heures"
