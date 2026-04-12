@@ -225,7 +225,7 @@ def fuzzy_time_lines_fr(now):
   elif now.minute <= 21 or (now.minute == 22 and now.second <= 30):
     return ["%s %s" % (hour_word_fr(hour), hour_plural_fr(hour)), "et vingt"]
   elif now.minute <= 26 or (now.minute == 27 and now.second <= 30):
-    return ["presque %s" % hour_word_fr(hour), "et demi" ]
+    return ["presque %s" % hour_word_fr(hour), "%s et demi" % hour_plural_fr(hour)]
   elif now.minute <= 31 or (now.minute == 32 and now.second <= 30):
     return ["%s %s" % (hour_word_fr(hour), hour_plural_fr(hour)), "et demi" ]
   elif now.minute <= 36 or (now.minute == 37 and now.second <= 30):
